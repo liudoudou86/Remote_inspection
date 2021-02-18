@@ -55,8 +55,8 @@ chmod 777 easy7_mysql_database_import.sh
 
 cd $Current
 startdate=`date -d today +%Y_%m_%d_%H_%M_%S`
-cat $DIR_TMP/easy7_mysql_database_import.sh $DIR_TMP/store_data.tar.tgz >/home/$(date +"%Y-%m-%d")_backup/easy7_mysql_database_backup_$startdate.bin
-chmod 777 /home/$(date +"%Y-%m-%d")_backup/easy7_mysql_database_backup_$startdate.bin
+cat $DIR_TMP/easy7_mysql_database_import.sh $DIR_TMP/store_data.tar.tgz >/home/backup_tiandy/easy7_mysql_database_backup_$startdate.bin
+chmod 777 /home/backup_tiandy/easy7_mysql_database_backup_$startdate.bin
 
 rm -rf $mysql_path
 rm -rf $DIR_TMP/store_data.tar.tgz
