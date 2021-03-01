@@ -67,6 +67,38 @@ def cmd_execute_Baq():
     print('Mysql数据库备份中...',stderr.read())
     ssh.close()
 
+# 远程执行物管数据库备份脚本
+def cmd_execute_Wg():
+    ssh = paramiko.SSHClient()
+    ssh.load_system_host_keys()
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    ssh.connect(host,port,user,pwd)
+    stdin,stdout,stderr = ssh.exec_command('cd /home/Script/;unzip Remote_inspection.zip')
+    print('脚本文件解压缩',stderr.read())
+    stdin,stdout,stderr = ssh.exec_command('chmod 777 *')
+    print('脚本文件授权',stderr.read())
+    stdin,stdout,stderr = ssh.exec_command('cd /home/Script/;sh BaqMysql.sh')
+    print('Mysql数据库备份中...',stderr.read())
+    stdin,stdout,stderr = ssh.exec_command('cd /home/Script/;sh WgMysql.sh')
+    print('WgMysql数据库备份中...',stderr.read())
+    ssh.close()
+
+# 远程执行物管数据库备份脚本
+def cmd_execute_Ag():
+    ssh = paramiko.SSHClient()
+    ssh.load_system_host_keys()
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    ssh.connect(host,port,user,pwd)
+    stdin,stdout,stderr = ssh.exec_command('cd /home/Script/;unzip Remote_inspection.zip')
+    print('脚本文件解压缩',stderr.read())
+    stdin,stdout,stderr = ssh.exec_command('chmod 777 *')
+    print('脚本文件授权',stderr.read())
+    stdin,stdout,stderr = ssh.exec_command('cd /home/Script/;sh BaqMysql.sh')
+    print('Mysql数据库备份中...',stderr.read())
+    stdin,stdout,stderr = ssh.exec_command('cd /home/Script/;sh AgMysql.sh')
+    print('AgMysql数据库备份中...',stderr.read())
+    ssh.close()
+
 # 远程执行地图mysql数据库备份脚本
 def cmd_execute_Dt():
     ssh = paramiko.SSHClient()
@@ -108,7 +140,7 @@ def cmd_zip():
 outputwin = [ [sg.Output(size=(57,5))]]
 
 layout = [
-    [sg.Radio('办案区服务器', 'RADIO1', key='_RADIO1_', default=True), sg.Radio('地图服务器', 'RADIO1', key='_RADIO2_'), sg.Radio('存储服务器', 'RADIO1', key='_RADIO3_')],
+    [sg.Radio('办案区', 'RADIO1', key='_RADIO1_', default=True), sg.Radio('物管', 'RADIO1', key='_RADIO2_'), sg.Radio('案管', 'RADIO1', key='_RADIO3_'), sg.Radio('地图', 'RADIO1', key='_RADIO4_'), sg.Radio('存储', 'RADIO1', key='_RADIO5_')],
     [sg.Text('请输入IP地址：',font='微软雅黑',size=(12, 1)),sg.Input(key='_HOST_')],
     [sg.Text('请输入端口号：',font='微软雅黑',size=(12, 1)),sg.InputText('22',key='_PORT_')],
     [sg.Text('请输入用户名：',font='微软雅黑',size=(12, 1)),sg.InputText('root',key='_USER_')],
@@ -136,8 +168,12 @@ while True:
         if values.get('_RADIO1_','True'):
             cmd_execute_Baq = cmd_execute_Baq()
         elif values.get('_RADIO2_','True'):
-            cmd_execute_Dt = cmd_execute_Dt()
+            cmd_execute_Wg = cmd_execute_Wg()
         elif values.get('_RADIO3_','True'):
+            cmd_execute_Ag = cmd_execute_Ag()
+        elif values.get('_RADIO4_','True'):
+            cmd_execute_Dt = cmd_execute_Dt()
+        elif values.get('_RADIO5_','True'):
             cmd_execute_Storage = cmd_execute_Storage()
         else:
             pass

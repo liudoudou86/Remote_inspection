@@ -10,24 +10,25 @@ mkdir  $mysql_path
 chmod 777 $DIR_TMP
 chmod 777 $mysql_path
 
-/opt/lampp/bin/mysqldump  --tab=$mysql_path --opt -x TDMAP
+/opt/mysql/bin/mysqldump  --tab=$mysql_path --opt AJJZ
 rm -rf $mysql_path/TAB_LOG.sql
 rm -rf $mysql_path/TAB_LOG.txt
 
+#保存表名，重新导出表的j结构信息（主要包括触发器）
 cd $mysql_path
 for i in `ls *.sql`
 do
 tab_name=`echo $i|awk -F. '{print $1}'`
 rm -rf $mysql_path/$tab_name
 rm -rf $mysql_path/$tab_name.txt
-/opt/lampp/bin/mysqldump --opt --triggers  TDMAP $tab_name>$tab_name.sql
+/opt/mysql/bin/mysqldump --opt --triggers  AJJZ $tab_name>$tab_name.sql
 done
 
 cd $DIR_TMP
 tar -czvf store_data.tar.tgz store_data
 
-touch easy7_mysql_database_import.sh
-cat >>easy7_mysql_database_import.sh <<MAYDAY
+touch ajjz_mysql_database_import.sh
+cat >>ajjz_mysql_database_import.sh <<MAYDAY
 #/bin/bash
 DIR_TMP=/home/mysql
 mysql_path=/home/mysql/store_data
@@ -41,7 +42,7 @@ ls | grep ".sql" > ../filename.txt
 
 cat \$DIR_TMP/filename.txt| while read tab_name
 do
-/opt/lampp/bin/mysql TDMAP<\$mysql_path/\$tab_name
+/opt/mysql/bin/mysql -uroot -p!QAZxdr5 AJJZ<\$mysql_path/\$tab_name
 done
 
 cd ..
@@ -53,14 +54,14 @@ rm -rf mysql
 exit 0
 MAYDAY
 
-chmod 777 easy7_mysql_database_import.sh
+chmod 777 ajjz_mysql_database_import.sh
 
 cd $Current
 startdate=`date -d today +%Y_%m_%d_%H_%M`
-cat $DIR_TMP/easy7_mysql_database_import.sh $DIR_TMP/store_data.tar.tgz >/home/BackupTiandy/dt_easy7_mysql_database_backup_$startdate.bin
+cat $DIR_TMP/ajjz_mysql_database_import.sh $DIR_TMP/store_data.tar.tgz >/home/BackupTiandy/ajjz_mysql_database_backup_$startdate.bin
 
 rm -rf $mysql_path
 rm -rf $DIR_TMP/store_data.tar.tgz
-rm -rf $DIR_TMP/easy7_mysql_database_import.sh
+rm -rf $DIR_TMP/ajjz_mysql_database_import.sh
 
 exit 0
