@@ -6,9 +6,11 @@
 import os
 import sys
 import time
+import zipfile
 
 import paramiko
 import PySimpleGUI as sg
+
 
 # 删除历史备份文件及文件夹
 def cmd_delete():
@@ -38,6 +40,7 @@ def sftp_put():
     ssh = paramiko.Transport((host,port))
     ssh.connect(username=user,password=pwd)
     sftp = paramiko.SFTPClient.from_transport(ssh) # 创建SFTP方法的会话连接
+    # TODO：此处修改为脚本所在地址进行排查
     sftp.put('D:\Remote_inspection.zip','/home/Script/Remote_inspection.zip') # PUT文件至远端服务器
     print('上传脚本文件至服务器')
     ssh.close()
@@ -137,6 +140,13 @@ def cmd_zip():
     print('备份文件压缩中...',stderr.read())
     ssh.close()
 
+# 解压缩文件夹
+zip_file = "BackupTiandy.zip"
+def unzip_file():
+    zip_src = zipfile.ZipFile(zip_file, 'r')
+    zip_src.extractall()
+    zip_src.close()
+
 outputwin = [ [sg.Output(size=(57,5))]]
 
 layout = [
@@ -179,7 +189,9 @@ while True:
             pass
         cmd_zip = cmd_zip()
         sftp_get = sftp_get()
-        sg.popup_ok('备份文件已下载至【D:\BackupTiandy.zip】',title='备份完成',font='微软雅黑')
+        unzip_file = unzip_file()
+        os.rename('BackupTiandy','BackupTiandy'+'_'+host)
+        sg.popup_ok('备份文件已下载至【D:\BackupTiandy_IP地址.zip】',title='备份完成',font='微软雅黑')
     elif event in ['_EXIT_',None]:
         break
     else:
