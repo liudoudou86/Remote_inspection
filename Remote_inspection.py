@@ -140,7 +140,7 @@ def cmd_zip():
     print('备份文件压缩中...',stderr.read())
     ssh.close()
 
-# 解压缩文件夹
+# 解压缩ZIP包
 zip_file = "BackupTiandy.zip"
 def unzip_file():
     zip_src = zipfile.ZipFile(zip_file, 'r')
@@ -190,7 +190,7 @@ while True:
         cmd_zip = cmd_zip()
         sftp_get = sftp_get()
         unzip_file = unzip_file()
-        os.rename('BackupTiandy','BackupTiandy'+'_'+host)
+        os.rename('BackupTiandy','BackupTiandy'+'_'+host) # 对文件夹进行重命名
         sg.popup_ok('备份文件已下载至【D:\BackupTiandy_IP地址.zip】',title='备份完成',font='微软雅黑')
     elif event in ['_EXIT_',None]:
         break
