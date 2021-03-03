@@ -137,7 +137,6 @@ def unzip_file():
     zip_src.extractall()
     zip_src.close()
 
-outputwin = [ [sg.Output(size=(57,5))]]
 
 layout = [
     [sg.Radio('办案区', 'RADIO1', key='_RADIO1_', default=True), sg.Radio('物管', 'RADIO1', key='_RADIO2_'), sg.Radio('案管', 'RADIO1', key='_RADIO3_'), sg.Radio('地图', 'RADIO1', key='_RADIO4_'), sg.Radio('存储', 'RADIO1', key='_RADIO5_')],
@@ -145,7 +144,6 @@ layout = [
     [sg.Text('请输入端口号：',font='微软雅黑',size=(12, 1)),sg.InputText('22',key='_PORT_')],
     [sg.Text('请输入用户名：',font='微软雅黑',size=(12, 1)),sg.InputText('root',key='_USER_')],
     [sg.Text('请输入密码：',font='微软雅黑',size=(12, 1)),sg.Input(key='_PWD_',password_char='*')],
-    #[sg.Frame('打印日志', layout = outputwin, font='微软雅黑')], 
     [sg.Button('确认',key = '_CONFIRM_',font='微软雅黑', size=(12, 1)), sg.Exit('退出',key = '_EXIT_',font='微软雅黑', size=(12, 1))]
 ]
 # 定义窗口，窗口名称
