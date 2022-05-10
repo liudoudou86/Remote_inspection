@@ -1,6 +1,4 @@
-#!/usr/bin/env python
 # -*- coding:utf-8 -*-
-# Author:lz
 
 
 import os
@@ -54,7 +52,7 @@ def sftp_get():
     print('下载备份文件至本地')
     ssh.close()
 
-# 远程执行办案区webapps和x1备份脚本
+# 远程执行备份脚本
 def cmd_execute_Webapps():
     ssh = paramiko.SSHClient()
     ssh.load_system_host_keys()
@@ -96,10 +94,9 @@ def cmd_execute_License():
     stdin,stdout,stderr = ssh.exec_command('cd /home/Script/;unzip Remote_inspection.zip')
     print('脚本文件解压缩',stderr.read())
     stdin,stdout,stderr = ssh.exec_command('cd /home/Script/;sh Backup_license.sh')
-    print('License授权文件备份中...',stderr.read())
+    print('License文件备份中...',stderr.read())
     ssh.close()
 
-# 远程执行物管数据库备份脚本
 def cmd_execute_Wg():
     ssh = paramiko.SSHClient()
     ssh.load_system_host_keys()
@@ -113,7 +110,6 @@ def cmd_execute_Wg():
     print('WgMysql数据库备份中...',stderr.read())
     ssh.close()
 
-# 远程执行物管数据库备份脚本
 def cmd_execute_Ag():
     ssh = paramiko.SSHClient()
     ssh.load_system_host_keys()
@@ -127,7 +123,6 @@ def cmd_execute_Ag():
     print('AgMysql数据库备份中...',stderr.read())
     ssh.close()
 
-# 远程执行地图mysql数据库备份脚本
 def cmd_execute_Dt():
     ssh = paramiko.SSHClient()
     ssh.load_system_host_keys()
@@ -139,7 +134,6 @@ def cmd_execute_Dt():
     print('Mysql数据库备份中...',stderr.read())
     ssh.close()
 
-# 远程执行证据图片备份脚本
 def cmd_execute_Storage():
     ssh = paramiko.SSHClient()
     ssh.load_system_host_keys()
@@ -170,8 +164,8 @@ def unzip_file():
 
 
 layout = [
-    [sg.Radio('办案区webapps', 'RADIO1', key='_RADIO11_', default=True), sg.Radio('办案区x1', 'RADIO1', key='_RADIO12_'), sg.Radio('办案区Mysql', 'RADIO1', key='_RADIO13_'), sg.Radio('办案区license', 'RADIO1', key='_RADIO14_')],
-    [sg.Radio('物管', 'RADIO1', key='_RADIO2_'), sg.Radio('案管', 'RADIO1', key='_RADIO3_'), sg.Radio('地图', 'RADIO1', key='_RADIO4_'), sg.Radio('存储', 'RADIO1', key='_RADIO5_')],
+    [sg.Radio('BAQ_webapps', 'RADIO1', key='_RADIO11_', default=True), sg.Radio('BAQ_x1', 'RADIO1', key='_RADIO12_'), sg.Radio('BAQ_Mysql', 'RADIO1', key='_RADIO13_'), sg.Radio('BAQ_license', 'RADIO1', key='_RADIO14_')],
+    [sg.Radio('WG', 'RADIO1', key='_RADIO2_'), sg.Radio('AG', 'RADIO1', key='_RADIO3_'), sg.Radio('Map', 'RADIO1', key='_RADIO4_'), sg.Radio('Storage', 'RADIO1', key='_RADIO5_')],
     [sg.Text('请输入IP地址：',font='微软雅黑',size=(12, 1)),sg.Input(key='_HOST_')],
     [sg.Text('请输入端口号：',font='微软雅黑',size=(12, 1)),sg.InputText('22',key='_PORT_')],
     [sg.Text('请输入用户名：',font='微软雅黑',size=(12, 1)),sg.InputText('root',key='_USER_')],
@@ -200,49 +194,49 @@ while True:
             cmd_zip = cmd_zip()
             sftp_get = sftp_get()
             unzip_file = unzip_file()
-            os.rename('BackupTiandy','BackupTiandy'+'_'+host+'_webapps') # 对文件夹进行重命名
+            os.rename('BackupTiandy','BackupTiandy'+'_'+host+'_BAQ_webapps') # 对文件夹进行重命名
         elif values.get('_RADIO12_','True'):
             cmd_execute_X1 = cmd_execute_X1()
             cmd_zip = cmd_zip()
             sftp_get = sftp_get()
             unzip_file = unzip_file()
-            os.rename('BackupTiandy','BackupTiandy'+'_'+host+'_x1')
+            os.rename('BackupTiandy','BackupTiandy'+'_'+host+'_BAQ_x1')
         elif values.get('_RADIO13_','True'):
             cmd_execute_Mysql = cmd_execute_Mysql()
             cmd_zip = cmd_zip()
             sftp_get = sftp_get()
             unzip_file = unzip_file()
-            os.rename('BackupTiandy','BackupTiandy'+'_'+host+'_办案区mysql')
+            os.rename('BackupTiandy','BackupTiandy'+'_'+host+'_BAQ_mysql')
         elif values.get('_RADIO14_','True'):
             cmd_execute_License = cmd_execute_License()
             cmd_zip = cmd_zip()
             sftp_get = sftp_get()
             unzip_file = unzip_file()
-            os.rename('BackupTiandy','BackupTiandy'+'_'+host+'_授权文件')   
+            os.rename('BackupTiandy','BackupTiandy'+'_'+host+'_BAQ_License')   
         elif values.get('_RADIO2_','True'):
             cmd_execute_Wg = cmd_execute_Wg()
             cmd_zip = cmd_zip()
             sftp_get = sftp_get()
             unzip_file = unzip_file()
-            os.rename('BackupTiandy','BackupTiandy'+'_'+host+'_物管') 
+            os.rename('BackupTiandy','BackupTiandy'+'_'+host+'_WG') 
         elif values.get('_RADIO3_','True'):
             cmd_execute_Ag = cmd_execute_Ag()
             cmd_zip = cmd_zip()
             sftp_get = sftp_get()
             unzip_file = unzip_file()
-            os.rename('BackupTiandy','BackupTiandy'+'_'+host+'_案管') 
+            os.rename('BackupTiandy','BackupTiandy'+'_'+host+'_AG') 
         elif values.get('_RADIO4_','True'):
             cmd_execute_Dt = cmd_execute_Dt()
             cmd_zip = cmd_zip()
             sftp_get = sftp_get()
             unzip_file = unzip_file()
-            os.rename('BackupTiandy','BackupTiandy'+'_'+host+'_地图') 
+            os.rename('BackupTiandy','BackupTiandy'+'_'+host+'_Map') 
         elif values.get('_RADIO5_','True'):
             cmd_execute_Storage = cmd_execute_Storage()
             cmd_zip = cmd_zip()
             sftp_get = sftp_get()
             unzip_file = unzip_file()
-            os.rename('BackupTiandy','BackupTiandy'+'_'+host+'_存储')
+            os.rename('BackupTiandy','BackupTiandy'+'_'+host+'_Storage')
         else:
             pass
         sg.popup_ok('备份文件已下载至D盘根目录',title='备份完成',font='微软雅黑')

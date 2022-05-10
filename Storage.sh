@@ -1,5 +1,4 @@
 #!/bin/bash --login
-# Author:lz
 
 startdate=`date -d today +%Y_%m_%d_%H_%M`
 
